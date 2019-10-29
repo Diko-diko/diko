@@ -1,0 +1,43 @@
+
+ Definition for singly-linked list.
+  public class ListNode
+ {
+     int val;
+      ListNode next;
+      ListNode(int x) { val = x; 
+}
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode head=new ListNode(0);//先新建一个空的链表
+        ListNode m=l1;//将参数赋给新建的链表m和n
+        ListNode n=l2;
+        int carry=0;
+        ListNode curr=head;//将头指针赋给新建的链表，为了后续返回的时候能用head.next,防止head被改变
+        
+        while(m!=null||n!=null)//null要小写，不能写成NULL
+        {
+            int x=(m!=null)?m.val:0;//因为while的条件里用的是||，所以要判断是否m和n都是null
+            int y=(n!=null)?n.val:0;
+            int sum=x+y+carry;//加上进位，因为是逆序存储，所以从前往后加刚好是小加到大
+            carry=sum/10;
+            
+            curr.next=new ListNode(sum%10);//将head的下一位存为尾数
+            curr=curr.next;//移位，继续存储
+            if(m!=null)//两个参数也移位
+            {
+                m=m.next;
+            }
+            if(n!=null)
+            {
+                n=n.next;
+            }
+        }
+        if (carry>0)//循环结束后若还有进位，则再在curr.next创建一个链表存进位
+        {
+            curr.next= new ListNode(carry);
+        }
+        return head.next;//直接返回头指针的next可得到整条链表
+            
+    }
+}
